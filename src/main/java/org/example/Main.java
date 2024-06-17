@@ -1,17 +1,49 @@
 package org.example;
 
+import org.example.Controller.GameController;
+import org.example.Exceptions.InavalidPlayerCountException;
+import org.example.Exceptions.InvalidBotCountException;
+import org.example.Models.*;
+import org.example.Strategies.WinningStrategy.ColWinningStrategy;
+import org.example.Strategies.WinningStrategy.DiagonalWinningStrategy;
+import org.example.Strategies.WinningStrategy.RowWinningStrategy;
+import org.example.Strategies.WinningStrategy.WinningStrategy;
+
+import java.util.ArrayList;
+import java.util.List;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+    public static void main(String[] args) throws InvalidBotCountException, InavalidPlayerCountException {
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+       // Game game = Game.getBuilder().setWinningStrategies(new ArrayList<>()).setPlayers(null).setDimension(3).Build();
+
+
+        int dimension=3;
+        List<Player> players = new ArrayList<>();
+      players.add(new Player("Aarna",new Symbol('A'),PlayerType.Human));
+        players.add(new Player("Aditya",new Symbol('X'),PlayerType.Human));
+
+        List<WinningStrategy> winningStrategies = List.of(
+                new RowWinningStrategy(),
+                new ColWinningStrategy(),
+                new DiagonalWinningStrategy()
+        );
+
+        GameController gameController = new GameController();
+
+        Game game = GameController.startGame(
+                dimension,
+                players,
+                winningStrategies
+        );
+
+        while(game.getGameState().equals(GameState.In_progress)){
+                    // 1. print the board
+                    // 2. Ask the usr to choose where they wnat to make a move.
+            gameController.PrintBoard(game);
         }
+
     }
 }

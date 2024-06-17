@@ -3,6 +3,16 @@ package org.example.Models;
 public class Cell {
 
     private  int row;
+    private  int col;
+    private CellState cellState;
+    private Player player;
+
+
+    public Cell(int row, int col) {
+        this.row=row;
+        this.col=col;
+        this.cellState=CellState.Empty;
+    }
 
     public Player getPlayer() {
         return player;
@@ -36,8 +46,5 @@ public class Cell {
         this.cellState = cellState;
     }
 
-    private  int col;
-    private CellState cellState;
-    private Player player;
 
 }

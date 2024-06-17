@@ -2,12 +2,10 @@ package org.example.Models;
 
 import org.example.Exceptions.InavalidPlayerCountException;
 import org.example.Exceptions.InvalidBotCountException;
-import org.example.Exceptions.InvalidUniquePlayerSymbolException;
 import org.example.Strategies.WinningStrategy.WinningStrategy;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 public class Game {
@@ -21,13 +19,22 @@ public class Game {
 
 
     private Game(int dimension,List<Player> players,List<WinningStrategy> winningStrategies){
-
+       this.players = players;
+       this.winningStrategies = winningStrategies;
+       this.moves = new ArrayList<>();
+       this.board = new Board(dimension);
+       this.gameState =GameState.In_progress;
+       this.NextPlayerMove=0;
     }
 
 
 
     public static Builder getBuilder(){
         return new Builder();
+    }
+
+    public void PrintBoard(){
+        board.Print();
     }
 
     public Board getBoard() {
@@ -93,7 +100,7 @@ public class Game {
             return this;
         }
 
-        public Builder setDimension(int dimension) {
+        public Builder setDimension(int i) {
             this.dimension = dimension;
             return this;
         }
@@ -121,8 +128,8 @@ public class Game {
         }
 
         private void PlayerCountValidate() throws InavalidPlayerCountException {
-            if(players.size() != dimension-1){
-                throw new InavalidPlayerCountException("no of player should be less than dimension -1");
+            if(players.size() != dimension - 1){
+                throw new InavalidPlayerCountException("no of player should be less than dimension 1");
             }
         }
 

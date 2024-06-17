@@ -1,6 +1,13 @@
 package org.example.Models;
 
 public class Move {
+    private Player player;
+    private Cell cell;
+
+    Move(Player player,Cell cell){
+        this.player=player;
+        this.cell=cell;
+    }
     public Player getPlayer() {
         return player;
     }
@@ -17,6 +24,5 @@ public class Move {
         this.cell = cell;
     }
 
-    private Player player;
-    private Cell cell;
+
 }
