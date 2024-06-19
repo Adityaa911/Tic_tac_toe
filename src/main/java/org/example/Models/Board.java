@@ -6,6 +6,7 @@ import java.util.List;
 public class Board {
 
     public Board(int dimension){
+        this.Dimension=dimension;
         board = new ArrayList<>();
 
         for (int i = 0;i<dimension;i++){
@@ -24,7 +25,7 @@ public class Board {
                     ;
                     System.out.print("|  |");
                 } else {
-                    System.out.print("|" + cell.getPlayer().getSymbol() + "|");
+                    System.out.print("|" + cell.getPlayer().getSymbol().getAchar() + "|");
                 }
             }
             System.out.println();
