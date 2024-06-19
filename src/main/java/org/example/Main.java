@@ -3,6 +3,7 @@ package org.example;
 import org.example.Controller.GameController;
 import org.example.Exceptions.InavalidPlayerCountException;
 import org.example.Exceptions.InvalidBotCountException;
+import org.example.Exceptions.InvalidMoveException;
 import org.example.Models.*;
 import org.example.Strategies.WinningStrategy.ColWinningStrategy;
 import org.example.Strategies.WinningStrategy.DiagonalWinningStrategy;
@@ -15,7 +16,7 @@ import java.util.List;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) throws InvalidBotCountException, InavalidPlayerCountException {
+    public static void main(String[] args) throws InvalidBotCountException, InavalidPlayerCountException, InvalidMoveException {
 
        // Game game = Game.getBuilder().setWinningStrategies(new ArrayList<>()).setPlayers(null).setDimension(3).Build();
 
@@ -33,7 +34,8 @@ public class Main {
 
         GameController gameController = new GameController();
 
-        Game game = GameController.startGame(
+        Game game;
+        game = GameController.startGame(
                 dimension,
                 players,
                 winningStrategies
@@ -43,6 +45,7 @@ public class Main {
                     // 1. print the board
                     // 2. Ask the usr to choose where they wnat to make a move.
             gameController.PrintBoard(game);
+            gameController.makeMove(game);
         }
 
     }

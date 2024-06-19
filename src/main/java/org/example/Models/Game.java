@@ -2,6 +2,7 @@ package org.example.Models;
 
 import org.example.Exceptions.InavalidPlayerCountException;
 import org.example.Exceptions.InvalidBotCountException;
+import org.example.Exceptions.InvalidMoveException;
 import org.example.Strategies.WinningStrategy.WinningStrategy;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 
 
 public class Game {
+    private int NextPlayerMoveIndex;
     private List<Player> players;
     private Board board;
     private List<Move> moves;
@@ -24,7 +26,7 @@ public class Game {
        this.moves = new ArrayList<>();
        this.board = new Board(dimension);
        this.gameState =GameState.In_progress;
-       this.NextPlayerMove=0;
+       this.NextPlayerMoveIndex=0;
     }
 
 
@@ -35,6 +37,57 @@ public class Game {
 
     public void PrintBoard(){
         board.Print();
+    }
+    public  void makeMove() throws InvalidMoveException {
+        Player currplayer = players.get(getNextPlayerMove());
+
+        System.out.println("this is my turn "+ currplayer.getName() + " ");
+
+        Move move = currplayer.makeMove();
+        
+        //check whther this move is valid or not
+        
+        if( !ValidateMove(move)){
+            throw new InvalidMoveException("this is invalid move choose other move");
+        }
+
+        int row = move.getCell().getRow();
+        int col = move.getCell().getCol();
+
+        Cell cell = board.getBoard().get(row).get(col);
+        cell.setCellState(CellState.Filled);
+        cell.setPlayer(currplayer);
+
+        Move Finalmove = new Move(currplayer,cell);
+        moves.add(Finalmove);
+
+      NextPlayerMoveIndex =(NextPlayerMoveIndex+1) % players.size();
+
+
+     if(CheckWinner(currplayer,Finalmove)){
+         winner = currplayer;
+         gameState=GameState.Ended;
+     }else if(moves.size() == board.getDimension() * board.getDimension());
+     //game is draw
+        gameState=GameState.Draw;
+    }
+
+    private boolean CheckWinner(Player currplayer, Move finalmove) {
+  return false;
+    }
+
+    private boolean ValidateMove(Move move) {
+        Player player = move.getPlayer();
+        Cell cell = move.getCell();
+        int row = cell.getRow();
+        int col = cell.getCol();
+
+        if(row < 0 || row > board.getDimension() ||
+                col >= board.getDimension() || cell.getCellState().equals(CellState.Empty) ){
+            return false;
+
+        }
+        return true;
     }
 
     public Board getBoard() {
@@ -128,7 +181,7 @@ public class Game {
         }
 
         private void PlayerCountValidate() throws InavalidPlayerCountException {
-            if(players.size() != dimension - 1){
+            if(players.size() != (dimension-1)){
                 throw new InavalidPlayerCountException("no of player should be less than dimension 1");
             }
         }

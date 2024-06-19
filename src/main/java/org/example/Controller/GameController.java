@@ -2,6 +2,7 @@ package org.example.Controller;
 
 import org.example.Exceptions.InavalidPlayerCountException;
 import org.example.Exceptions.InvalidBotCountException;
+import org.example.Exceptions.InvalidMoveException;
 import org.example.Models.Game;
 import org.example.Models.Player;
 import org.example.Strategies.WinningStrategy.WinningStrategy;
@@ -16,14 +17,16 @@ public class GameController {
                     .setPlayers(players)
                     .setWinningStrategies(winningStrategies)
                     .Build();
-        } catch (InvalidBotCountException e) {
-            throw new RuntimeException(e);
-        } catch (InavalidPlayerCountException e) {
+        } catch (InvalidBotCountException | InavalidPlayerCountException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void PrintBoard(Game game){
         game.PrintBoard();
+    }
+
+    public void makeMove(Game game) throws InvalidMoveException {
+        game.makeMove();
     }
 }
